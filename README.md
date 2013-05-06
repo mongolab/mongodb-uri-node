@@ -3,7 +3,7 @@
 Parse and format MongoDB URIs of the form:
 
 ```
-    mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/database][?options]
+mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/database][?options]
 ```
 
 Note that there are two minor differences between this format and the
