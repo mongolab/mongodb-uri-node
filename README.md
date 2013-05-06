@@ -48,8 +48,7 @@ console.log(JSON.stringify(uriObject, null, 4));
 
 ```javascript
 var mongodbUri = require('mongodb-uri');
-var uri = mongodbUri.format
-(
+var uri = mongodbUri.format(
         {
             username: 'user:n@me',
             password: 'p@ssword',
