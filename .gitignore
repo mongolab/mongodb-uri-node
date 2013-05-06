@@ -1,0 +1,8 @@
+# Project-specific ignore rules applicable to all users
+# https://help.github.com/articles/ignoring-files
+
+#
+# node
+#
+node_modules
+npm-debug.log
