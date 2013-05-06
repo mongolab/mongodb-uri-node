@@ -1,4 +1,5 @@
 /**
+ * Creates a parser.
  *
  * @param {Object=} options
  * @constructor
@@ -129,15 +130,7 @@ MongodbUriParser.prototype.format = function format(uriObject) {
         uri += '@';
     }
 
-    uriObject.hosts.forEach(function (h, i) {
-        if (i > 0) {
-            uri += ',';
-        }
-        uri += encodeURIComponent(h.host);
-        if (h.port) {
-            uri += ':' + encodeURIComponent(h.port);
-        }
-    });
+    uri += this._formatAddress(uriObject);
 
     // While it's not to the official spec, we only put a slash if there's a database, independent of whether there are options
     if (uriObject.database) {
@@ -153,6 +146,27 @@ MongodbUriParser.prototype.format = function format(uriObject) {
 
     return uri;
 
+};
+
+/**
+ * Formats the address portion of the uriObject, returning it.
+ *
+ * @param {!Object} uriObject
+ * @return {String}
+ * @private
+ */
+MongodbUriParser.prototype._formatAddress = function _formatAddress(uriObject) {
+    var address = '';
+    uriObject.hosts.forEach(function (h, i) {
+        if (i > 0) {
+            address += ',';
+        }
+        address += encodeURIComponent(h.host);
+        if (h.port) {
+            address += ':' + encodeURIComponent(h.port);
+        }
+    });
+    return address;
 };
 
 exports.MongodbUriParser = MongodbUriParser;
