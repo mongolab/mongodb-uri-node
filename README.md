@@ -6,7 +6,13 @@ Parse and format MongoDB URIs of the form:
     mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/database][?options]
 ```
 
-Note that
+Note that there are two minor differences between this format and the standard [MongoDB connect string format](http://docs.mongodb.org/manual/reference/connection-string/):
+
+1. `password` is optional even when a `username` is supplied
+2. The slash before the `database` is not required when leaving out the `database` but specifying `options`
+
+Neither of these differences should prevent this library from parsing any URI conforming to the standard format, but
+make URIs more flexible.
 
 ## Usage
 
