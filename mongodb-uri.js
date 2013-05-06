@@ -38,8 +38,7 @@ MongodbUriParser.prototype.parse = function parse(uri) {
 
     var uriObject = {
         href: uri,
-        protocol: this.scheme + ':',
-        hosts: []
+        protocol: this.scheme + ':'
     };
 
     var rest = uri.substring(this.scheme.length + '://'.length);
@@ -88,6 +87,7 @@ MongodbUriParser.prototype.parse = function parse(uri) {
  * @private
  */
 MongodbUriParser.prototype._parseAddress = function _parseAddress(address, uriObject) {
+    uriObject.hosts = [];
     address.split(',').forEach(function (h) {
         var i = h.indexOf(':');
         if (i >= 0) {
