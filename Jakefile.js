@@ -1,5 +1,4 @@
 var mocha = require('jake-mocha');
-
 mocha.defineTask(
         {
             name: 'mocha',
@@ -10,5 +9,4 @@ mocha.defineTask(
             }
         }
 );
-
 task('default', ['mocha']);
