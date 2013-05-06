@@ -14,10 +14,10 @@
     "license": "MIT",
     "main": "mongodb-uri",
     "devDependencies": {
-        "platform": "git+ssh://git@github.com:objectlabs/jake-mocha.git",
         "jake": "0.5.x",
         "mocha": "1.8.x",
-        "should": "1.2.x"
+        "should": "1.2.x",
+        "jake-mocha": "git+ssh://git@github.com:objectlabs/jake-mocha.git"
     },
     "scripts": {
         "test": "jake --trace"
