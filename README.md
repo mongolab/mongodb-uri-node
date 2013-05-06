@@ -21,7 +21,8 @@ make URIs more flexible.
 
 ```javascript
 var mongodbUri = require('mongodb-uri');
-console.log(JSON.stringify(mongodbUri.parse('mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin'), null, 4));
+var uriObject = mongodbUri.parse('mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin');
+console.log(JSON.stringify(uriObject, null, 4));
 ```
 
 ```
@@ -47,24 +48,24 @@ console.log(JSON.stringify(mongodbUri.parse('mongodb://user%3An%40me:p%40ssword@
 
 ```javascript
 var mongodbUri = require('mongodb-uri');
-console.log(mongodbUri.format
-            (
-                    {
-                        username: 'user:n@me',
-                        password: 'p@ssword',
-                        hosts: [
-                            {
-                                host: 'host',
-                                port: 1234
-                            }
-                        ],
-                        database: 'd@tabase',
-                        options: {
-                            authenticationDatabase: '@dmin'
-                        }
-                    }
-            )
+var uri = mongodbUri.format
+(
+        {
+            username: 'user:n@me',
+            password: 'p@ssword',
+            hosts: [
+                {
+                    host: 'host',
+                    port: 1234
+                }
+            ],
+            database: 'd@tabase',
+            options: {
+                authenticationDatabase: '@dmin'
+            }
+        }
 );
+console.log(uri);
 ```
 
 ```
