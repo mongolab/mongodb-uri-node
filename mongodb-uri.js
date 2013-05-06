@@ -8,15 +8,6 @@ function MongodbUriParser(options) {
 }
 
 /**
- *
- * @param {!String} uri
- * @returns {Boolean}
- */
-MongodbUriParser.prototype.isMongodbUri = function isMongodbUri(uri) {
-    return typeof uri === 'string' && uri.indexOf(this.scheme + '://') === 0;
-};
-
-/**
  * Takes a URI of the form:
  *
  *   mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/database][?options]
@@ -40,7 +31,7 @@ MongodbUriParser.prototype.isMongodbUri = function isMongodbUri(uri) {
  * @return {Object}
  */
 MongodbUriParser.prototype.parse = function parse(uri) {
-    if (!this.isMongodbUri(uri)) {
+    if (uri.indexOf(this.scheme + '://') !== 0) {
         throw new Error('URI must begin with "' + this.scheme + '://".');
     }
 
@@ -167,6 +158,6 @@ MongodbUriParser.prototype.format = function format(uriObject) {
 exports.MongodbUriParser = MongodbUriParser;
 
 var defaultParser = new MongodbUriParser();
-['isMongodbUri', 'parse', 'format'].forEach(function (f) {
+['parse', 'format'].forEach(function (f) {
     exports[f] = defaultParser[f].bind(defaultParser);
 });

@@ -100,13 +100,6 @@ Object.keys(testCases).forEach(function (t) {
 });
 
 describe('mongodb-uri', function () {
-    describe('.isMongodbUri()', function () {
-        Object.keys(testCases).forEach(function (uri) {
-            it('should handle "' + uri + '"', function () {
-                mongodbUri.isMongodbUri(uri).should.be.ok;
-            });
-        });
-    });
     describe('.parse()', function () {
         Object.keys(testCases).forEach(function (uri) {
             it('should handle "' + uri + '"', function () {
