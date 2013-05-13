@@ -100,18 +100,66 @@ Object.keys(testCases).forEach(function (t) {
 });
 
 describe('mongodb-uri', function () {
+    var strictParser = new mongodbUri.MongodbUriParser({ scheme: 'mongodb' });
     describe('.parse()', function () {
         Object.keys(testCases).forEach(function (uri) {
             it('should handle "' + uri + '"', function () {
                 mongodbUri.parse(uri).should.eql(testCases[uri]);
             });
         });
+        it('should handle non-standard schemes', function () {
+            mongodbUri.parse('somescheme://localhost').should.eql(
+                    {
+                        href: 'somescheme://localhost',
+                        protocol: 'somescheme:',
+                        hosts: [
+                            {
+                                host: 'localhost'
+                            }
+                        ]
+                    }
+            );
+        });
+        it('should reject unexpected schemes', function () {
+            (function () { strictParser.parse('somescheme://localhost'); }).should.throw();
+        });
     });
     describe('.format()', function () {
+        it('should handle no argument', function () {
+            mongodbUri.format().should.eql('mongodb://localhost');
+        });
         Object.keys(testCases).forEach(function (uri) {
             it('should handle "' + uri + '"', function () {
                 mongodbUri.format(testCases[uri]).should.eql(uri);
             });
+        });
+        it('should handle non-standard schemes', function () {
+            mongodbUri.format(
+                    {
+                        href: 'somescheme://localhost',
+                        protocol: 'somescheme:',
+                        hosts: [
+                            {
+                                host: 'localhost'
+                            }
+                        ]
+                    }
+            ).should.eql('somescheme://localhost');
+        });
+        it('should reject unexpected schemes', function () {
+            (function () {
+                strictParser.format(
+                        {
+                            href: 'somescheme://localhost',
+                            protocol: 'somescheme:',
+                            hosts: [
+                                {
+                                    host: 'localhost'
+                                }
+                            ]
+                        }
+                );
+            }).should.throw();
         });
     });
 });

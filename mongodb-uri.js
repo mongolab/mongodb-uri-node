@@ -5,7 +5,9 @@
  * @constructor
  */
 function MongodbUriParser(options) {
-    this.scheme = (options && options.scheme) || 'mongodb';
+    if (options && options.scheme) {
+        this.scheme = options.scheme;
+    }
 }
 
 /**
@@ -32,18 +34,22 @@ function MongodbUriParser(options) {
  * @return {Object}
  */
 MongodbUriParser.prototype.parse = function parse(uri) {
-    if (uri.indexOf(this.scheme + '://') !== 0) {
-        throw new Error('URI must begin with "' + this.scheme + '://".');
-    }
 
     var uriObject = {
-        href: uri,
-        protocol: this.scheme + ':'
+        href: uri
     };
 
-    var rest = uri.substring(this.scheme.length + '://'.length);
+    var i = uri.indexOf('://');
+    if (i < 0) {
+        throw new Error('No protocol found in URI ' + uri);
+    }
+    uriObject.protocol = uri.substring(0, i + 1);
+    if (this.scheme && this.scheme !== uri.substring(0, i)) {
+        throw new Error('URI must begin with ' + this.scheme + '://');
+    }
+    var rest = uri.substring(i + 3);
 
-    var i = rest.indexOf('@');
+    i = rest.indexOf('@');
     if (i >= 0) {
         var credentials = rest.substring(0, i);
         rest = rest.substring(i + 1);
@@ -108,17 +114,28 @@ MongodbUriParser.prototype._parseAddress = function _parseAddress(address, uriOb
  *
  *   mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/database][?options]
  *
- * href and protocol, if present in the input, are ignored.
+ * href, if present in the input, is ignored.
  *
  * @param {Object=} uriObject
  * @return {String}
  */
 MongodbUriParser.prototype.format = function format(uriObject) {
 
-    var uri = this.scheme + '://';
-
     if (!uriObject) {
-        return uri + 'localhost';
+        return (this.scheme || 'mongodb') + '://localhost';
+    }
+
+    if (this.scheme && uriObject.protocol && this.scheme + ':' !== uriObject.scheme) {
+        throw new Error('')
+    }
+
+    var uri;
+    if (this.scheme) {
+        uri = this.scheme + '://';
+    } else if (uriObject.protocol) {
+        uri = uriObject.protocol + '//';
+    } else {
+        uri = 'mongodb://';
     }
 
     if (uriObject.username) {
