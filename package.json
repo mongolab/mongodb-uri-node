@@ -3,19 +3,20 @@
     "version": "0.9.0",
     "description": "A parser for MongoDB URIs.",
     "keywords": ["mongodb", "uri"],
-    "author": "ObjectLabs <support@objectlabs.com>",
+    "author": "MongoLab <support@mongolab.com>",
     "contributors": [
-        "Jared D. Cottrell <jared@objectlabs.com>"
+        "Jared D. Cottrell <jared@mongolab.com>"
     ],
     "repository": {
         "type": "git",
         "url": "https://github.com/mongolab/mongodb-uri-node.git"
     },
+    "homepage": "https://github.com/mongolab/mongodb-uri-node.git",
     "license": "MIT",
     "main": "mongodb-uri",
     "devDependencies": {
         "jake": "0.5.x",
-        "mocha": "1.8.x",
+        "mocha": "1.9.x",
         "should": "1.2.x",
         "jake-mocha": "git+ssh://git@github.com:objectlabs/jake-mocha.git"
     },
