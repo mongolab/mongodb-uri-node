@@ -41,10 +41,10 @@ MongodbUriParser.prototype.parse = function parse(uri) {
 
     var i = uri.indexOf('://');
     if (i < 0) {
-        throw new Error('No protocol found in URI ' + uri);
+        throw new Error('No scheme found in URI ' + uri);
     }
-    uriObject.protocol = uri.substring(0, i + 1);
-    if (this.scheme && this.scheme !== uri.substring(0, i)) {
+    uriObject.scheme = uri.substring(0, i);
+    if (this.scheme && this.scheme !== uriObject.scheme) {
         throw new Error('URI must begin with ' + this.scheme + '://');
     }
     var rest = uri.substring(i + 3);
@@ -125,18 +125,10 @@ MongodbUriParser.prototype.format = function format(uriObject) {
         return (this.scheme || 'mongodb') + '://localhost';
     }
 
-    if (this.scheme && uriObject.protocol && this.scheme + ':' !== uriObject.scheme) {
-        throw new Error('')
+    if (this.scheme && uriObject.scheme && this.scheme !== uriObject.scheme) {
+        throw new Error('Scheme not supported: ' + uriObject.scheme);
     }
-
-    var uri;
-    if (this.scheme) {
-        uri = this.scheme + '://';
-    } else if (uriObject.protocol) {
-        uri = uriObject.protocol + '//';
-    } else {
-        uri = 'mongodb://';
-    }
+    var uri = (this.scheme || uriObject.scheme || 'mongodb') + '://';
 
     if (uriObject.username) {
         uri += encodeURIComponent(uriObject.username);

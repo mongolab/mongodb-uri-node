@@ -96,7 +96,7 @@ var testCases = {
 };
 Object.keys(testCases).forEach(function (t) {
     testCases[t].href = t;
-    testCases[t].protocol = 'mongodb:';
+    testCases[t].scheme = 'mongodb';
 });
 
 describe('mongodb-uri', function () {
@@ -111,7 +111,7 @@ describe('mongodb-uri', function () {
             mongodbUri.parse('somescheme://localhost').should.eql(
                     {
                         href: 'somescheme://localhost',
-                        protocol: 'somescheme:',
+                        scheme: 'somescheme',
                         hosts: [
                             {
                                 host: 'localhost'
@@ -137,7 +137,7 @@ describe('mongodb-uri', function () {
             mongodbUri.format(
                     {
                         href: 'somescheme://localhost',
-                        protocol: 'somescheme:',
+                        scheme: 'somescheme',
                         hosts: [
                             {
                                 host: 'localhost'
@@ -151,7 +151,7 @@ describe('mongodb-uri', function () {
                 strictParser.format(
                         {
                             href: 'somescheme://localhost',
-                            protocol: 'somescheme:',
+                            scheme: 'somescheme',
                             hosts: [
                                 {
                                     host: 'localhost'
