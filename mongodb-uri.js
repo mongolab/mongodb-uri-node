@@ -19,7 +19,7 @@ function MongodbUriParser(options) {
  *
  *   {
  *       href: !String,
- *       protocol: !String,
+ *       scheme: !String,
  *       username: String,
  *       password: String,
  *       hosts: [{ host: String, port: Number }],
@@ -27,7 +27,7 @@ function MongodbUriParser(options) {
  *       options: !Object
  *   }
  *
- * href, protocol, and hosts will always be present. Other fields will only be present in the result if they were
+ * href, scheme, and hosts will always be present. Other fields will only be present in the result if they were
  * present in the input.
  *
  * @param {!String} uri
