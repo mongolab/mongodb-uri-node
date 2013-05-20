@@ -18,7 +18,7 @@ function MongodbUriParser(options) {
  * and returns an object of the form:
  *
  *   {
- *       href: !String,
+ *       uri: !String,
  *       scheme: !String,
  *       username: String,
  *       password: String,
@@ -27,7 +27,7 @@ function MongodbUriParser(options) {
  *       options: !Object
  *   }
  *
- * href, scheme, and hosts will always be present. Other fields will only be present in the result if they were
+ * uri, scheme, and hosts will always be present. Other fields will only be present in the result if they were
  * present in the input.
  *
  * @param {!String} uri
@@ -36,7 +36,7 @@ function MongodbUriParser(options) {
 MongodbUriParser.prototype.parse = function parse(uri) {
 
     var uriObject = {
-        href: uri
+        uri: uri
     };
 
     var i = uri.indexOf('://');
@@ -114,7 +114,7 @@ MongodbUriParser.prototype._parseAddress = function _parseAddress(address, uriOb
  *
  *   mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/database][?options]
  *
- * href, if present in the input, is ignored.
+ * uri, if present in the input, is ignored.
  *
  * @param {Object=} uriObject
  * @return {String}
