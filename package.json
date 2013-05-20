@@ -1,8 +1,8 @@
 {
     "name": "mongodb-uri",
     "version": "0.9.0",
-    "description": "A parser for MongoDB URIs.",
-    "keywords": ["mongodb", "uri"],
+    "description": "A parser and formatter for MongoDB URIs.",
+    "keywords": ["mongodb", "uri", "parser", "formatter"],
     "author": "MongoLab <support@mongolab.com>",
     "contributors": [
         "Jared D. Cottrell <jared@mongolab.com>"
