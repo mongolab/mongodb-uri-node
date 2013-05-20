@@ -95,7 +95,6 @@ var testCases = {
     }
 };
 Object.keys(testCases).forEach(function (t) {
-    testCases[t].uri = t;
     testCases[t].scheme = 'mongodb';
 });
 
@@ -110,7 +109,6 @@ describe('mongodb-uri', function () {
         it('should handle non-standard schemes', function () {
             mongodbUri.parse('somescheme://localhost').should.eql(
                     {
-                        uri: 'somescheme://localhost',
                         scheme: 'somescheme',
                         hosts: [
                             {
@@ -136,7 +134,6 @@ describe('mongodb-uri', function () {
         it('should handle non-standard schemes', function () {
             mongodbUri.format(
                     {
-                        uri: 'somescheme://localhost',
                         scheme: 'somescheme',
                         hosts: [
                             {
@@ -150,7 +147,6 @@ describe('mongodb-uri', function () {
             (function () {
                 strictParser.format(
                         {
-                            uri: 'somescheme://localhost',
                             scheme: 'somescheme',
                             hosts: [
                                 {

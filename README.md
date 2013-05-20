@@ -27,7 +27,6 @@ console.log(JSON.stringify(uriObject, null, 4));
 
 ```
 {
-    "uri": "mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin",
     "scheme": "mongodb",
     "hosts": [
         {
