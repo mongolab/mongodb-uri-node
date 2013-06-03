@@ -12,8 +12,7 @@ Note that there are two minor differences between this format and the
 1. `password` is optional even when a `username` is supplied
 2. The slash before the `database` is not required when leaving out the `database` but specifying `options`
 
-Neither of these differences should prevent this library from parsing any URI conforming to the standard format, but
-make URIs more flexible.
+Neither of these differences should prevent this library from parsing any URI conforming to the standard format.
 
 ## Usage
 
