@@ -18,7 +18,7 @@
         "jake": "0.5.x",
         "mocha": "1.9.x",
         "should": "1.2.x",
-        "jake-mocha": "git+ssh://git@github.com:mongolab/jake-mocha.git"
+        "jake-mocha": "0.9.x"
     },
     "scripts": {
         "test": "jake --trace"
