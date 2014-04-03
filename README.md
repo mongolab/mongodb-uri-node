@@ -18,6 +18,30 @@ Neither of these differences should prevent this library from parsing any URI co
 
 ### parse
 
+Takes a URI of the form:
+
+```
+    mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/database][?options]
+```
+
+and returns an object of the form:
+
+```javascript
+    {
+        scheme: !String,
+        username: String,
+        password: String,
+        hosts: [ { host: String, port: Number } ],
+        database: String,
+        options: !Object
+    }
+```
+
+`scheme` and `hosts` will always be present. Other fields will only be present in the result if they were present in the
+input.
+
+#### Example
+
 ```javascript
 var mongodbUri = require('mongodb-uri');
 var uriObject = mongodbUri.parse('mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin');
@@ -44,6 +68,14 @@ console.log(JSON.stringify(uriObject, null, 4));
 
 ### format
 
+Takes a URI object and returns a URI string of the form:
+
+```
+    mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/database][?options]
+```
+
+#### Example
+
 ```javascript
 var mongodbUri = require('mongodb-uri');
 var uri = mongodbUri.format(
@@ -67,4 +99,22 @@ console.log(uri);
 
 ```
 mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin
+```
+
+### formatMongoose
+
+Takes either a URI object or string in standard format and returns a Mongoose connection string. Specifically,
+instead of listing all hosts and ports in a single URI, a Mongoose connection string contains a list of URIs each
+with a single host and port pair.
+
+#### Examples
+
+```javascript
+var mongodbUri = require('mongodb-uri');
+var uri = mongodbUri.formatMongoose('mongodb://user%3An%40me:p%40ssword@host:1234,host:5678/d%40tabase?authenticationDatabase=%40dmin');
+console.log(uri);
+```
+
+```
+mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin,mongodb://user%3An%40me:p%40ssword@host:5678/d%40tabase?authenticationDatabase=%40dmin
 ```

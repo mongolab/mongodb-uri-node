@@ -6,99 +6,139 @@
 var mongodbUri = require('./mongodb-uri');
 var should = require('should');
 
-var testCases = {
-    'mongodb://host': {
-        hosts: [
-            {
-                host: 'host'
-            }
-        ]
-    },
-    'mongodb://host:1234': {
-        hosts: [
-            {
-                host: 'host',
-                port: 1234
-            }
-        ]
-    },
-    'mongodb://host:1234/database': {
-        hosts: [
-            {
-                host: 'host',
-                port: 1234
-            }
-        ],
-        database: 'database'
-    },
-    'mongodb://username@host:1234/database': {
-        username: 'username',
-        hosts: [
-            {
-                host: 'host',
-                port: 1234
-            }
-        ],
-        database: 'database'
-    },
-    'mongodb://username:password@host:1234/database': {
-        username: 'username',
-        password: 'password',
-        hosts: [
-            {
-                host: 'host',
-                port: 1234
-            }
-        ],
-        database: 'database'
-    },
-    'mongodb://username:password@host:1234/database?authenticationDatabase=admin': {
-        username: 'username',
-        password: 'password',
-        hosts: [
-            {
-                host: 'host',
-                port: 1234
-            }
-        ],
-        database: 'database',
-        options: {
-            authenticationDatabase: 'admin'
+var testCases = [
+    {
+        standardUri: 'mongodb://host',
+        mongooseConnectionString: 'mongodb://host',
+        uriObject: {
+            scheme: 'mongodb',
+            hosts: [
+                {
+                    host: 'host'
+                }
+            ]
         }
     },
-    'mongodb://username:password@host1:1234,host2:1235/database?authenticationDatabase=admin': {
-        username: 'username',
-        password: 'password',
-        hosts: [
-            {
-                host: 'host1',
-                port: 1234
-            },
-            {
-                host: 'host2',
-                port: 1235
-            }
-        ],
-        database: 'database',
-        options: {
-            authenticationDatabase: 'admin'
+    {
+        standardUri: 'mongodb://host:1234',
+        mongooseConnectionString: 'mongodb://host:1234',
+        uriObject: {
+            scheme: 'mongodb',
+            hosts: [
+                {
+                    host: 'host',
+                    port: 1234
+                }
+            ]
         }
     },
-    'mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin': {
-        username: 'user:n@me',
-        password: 'p@ssword',
-        hosts: [
-            {
-                host: 'host',
-                port: 1234
+    {
+        standardUri: 'mongodb://host:1234/database',
+        mongooseConnectionString: 'mongodb://host:1234/database',
+        uriObject: {
+            scheme: 'mongodb',
+            hosts: [
+                {
+                    host: 'host',
+                    port: 1234
+                }
+            ],
+            database: 'database'
+        }
+    },
+    {
+        standardUri: 'mongodb://username@host:1234/database',
+        mongooseConnectionString: 'mongodb://username@host:1234/database',
+        uriObject: {
+            scheme: 'mongodb',
+            username: 'username',
+            hosts: [
+                {
+                    host: 'host',
+                    port: 1234
+                }
+            ],
+            database: 'database'
+        }
+    },
+    {
+        standardUri: 'mongodb://username:password@host:1234/database',
+        mongooseConnectionString: 'mongodb://username:password@host:1234/database',
+        uriObject: {
+            scheme: 'mongodb',
+            username: 'username',
+            password: 'password',
+            hosts: [
+                {
+                    host: 'host',
+                    port: 1234
+                }
+            ],
+            database: 'database'
+        }
+    },
+    {
+        standardUri: 'mongodb://username:password@host:1234/database?authenticationDatabase=admin',
+        mongooseConnectionString: 'mongodb://username:password@host:1234/database?authenticationDatabase=admin',
+        uriObject: {
+            scheme: 'mongodb',
+            username: 'username',
+            password: 'password',
+            hosts: [
+                {
+                    host: 'host',
+                    port: 1234
+                }
+            ],
+            database: 'database',
+            options: {
+                authenticationDatabase: 'admin'
             }
-        ],
-        database: 'd@tabase',
-        options: {
-            authenticationDatabase: '@dmin'
+        }
+    },
+    {
+        standardUri: 'mongodb://username:password@host:1234,host2:1235/database?authenticationDatabase=admin',
+        mongooseConnectionString: 'mongodb://username:password@host:1234/database?authenticationDatabase=admin,mongodb://username:password@host2:1235/database?authenticationDatabase=admin',
+        uriObject: {
+            scheme: 'mongodb',
+            username: 'username',
+            password: 'password',
+            hosts: [
+                {
+                    host: 'host',
+                    port: 1234
+                },
+                {
+                    host: 'host2',
+                    port: 1235
+                }
+            ],
+            database: 'database',
+            options: {
+                authenticationDatabase: 'admin'
+            }
+        }
+    },
+    {
+        standardUri: 'mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin',
+        mongooseConnectionString: 'mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin',
+        uriObject: {
+            scheme: 'mongodb',
+            username: 'user:n@me',
+            password: 'p@ssword',
+            hosts: [
+                {
+                    host: 'host',
+                    port: 1234
+                }
+            ],
+            database: 'd@tabase',
+            options: {
+                authenticationDatabase: '@dmin'
+            }
         }
     }
-};
+];
 Object.keys(testCases).forEach(function (t) {
     testCases[t].scheme = 'mongodb';
 });
@@ -106,9 +146,9 @@ Object.keys(testCases).forEach(function (t) {
 describe('mongodb-uri', function () {
     var strictParser = new mongodbUri.MongodbUriParser({ scheme: 'mongodb' });
     describe('.parse()', function () {
-        Object.keys(testCases).forEach(function (uri) {
-            it('should handle "' + uri + '"', function () {
-                mongodbUri.parse(uri).should.eql(testCases[uri]);
+        testCases.forEach(function (test) {
+            it('should handle "' + test.standardUri + '"', function () {
+                mongodbUri.parse(test.standardUri).should.eql(test.uriObject);
             });
         });
         it('should handle non-standard schemes', function () {
@@ -131,9 +171,9 @@ describe('mongodb-uri', function () {
         it('should handle no argument', function () {
             mongodbUri.format().should.eql('mongodb://localhost');
         });
-        Object.keys(testCases).forEach(function (uri) {
-            it('should handle "' + uri + '"', function () {
-                mongodbUri.format(testCases[uri]).should.eql(uri);
+        testCases.forEach(function (test) {
+            it('should handle "' + test.standardUri + '"', function () {
+                mongodbUri.format(test.uriObject).should.eql(test.standardUri);
             });
         });
         it('should handle non-standard schemes', function () {
@@ -161,6 +201,17 @@ describe('mongodb-uri', function () {
                         }
                 );
             }).should.throw();
+        });
+    });
+    describe('.formatMongoose()', function () {
+        it('should handle no argument', function () {
+            mongodbUri.formatMongoose().should.eql('mongodb://localhost');
+        });
+        testCases.forEach(function (test) {
+            it('should handle "' + test.standardUri + '"', function () {
+                mongodbUri.formatMongoose(test.standardUri).should.eql(test.mongooseConnectionString);
+                mongodbUri.formatMongoose(test.uriObject).should.eql(test.mongooseConnectionString);
+            });
         });
     });
 });

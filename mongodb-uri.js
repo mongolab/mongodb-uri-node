@@ -26,7 +26,7 @@ function MongodbUriParser(options) {
  *       scheme: !String,
  *       username: String,
  *       password: String,
- *       hosts: [{ host: String, port: Number }],
+ *       hosts: [ { host: String, port: Number } ],
  *       database: String,
  *       options: !Object
  *   }
@@ -178,9 +178,38 @@ MongodbUriParser.prototype._formatAddress = function _formatAddress(uriObject) {
     return address;
 };
 
+/**
+ * Takes either a URI object or string in standard format and returns a Mongoose connection string. Specifically,
+ * instead of listing all hosts and ports in a single URI, a Mongoose connection string contains a list of URIs each
+ * with a single host and port pair.
+ *
+ * @param {!Object|String} uri
+ * @return {String}
+ */
+MongodbUriParser.prototype.formatMongoose = function formatMongoose(uri) {
+    var parser = this;
+    if (typeof uri === 'string') {
+        uri = parser.parse(uri);
+    }
+    if (!uri) {
+        return parser.format(uri);
+    }
+    var uriString = '';
+    uri.hosts.forEach(function (h, i) {
+        if (i > 0) {
+            uriString += ',';
+        }
+        // This trick is okay because format() never dynamically inspects the keys in its argument
+        var singleUri = Object.create(uri);
+        singleUri.hosts = [ h ];
+        uriString += parser.format(singleUri);
+    });
+    return uriString;
+};
+
 exports.MongodbUriParser = MongodbUriParser;
 
 var defaultParser = new MongodbUriParser();
-['parse', 'format'].forEach(function (f) {
+['parse', 'format', 'formatMongoose'].forEach(function (f) {
     exports[f] = defaultParser[f].bind(defaultParser);
 });
