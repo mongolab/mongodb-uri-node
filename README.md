@@ -106,15 +106,18 @@ programmatically transformed into a string digestible by [mongoose.connect()](ht
 var mongoose = require('mongoose');
 var mongodbUri = require('mongodb-uri');
 
-var mongooseConnectString = mongodbUri.formatMongoose('mongodb://host:1234,host:5678/database');
-console.log(mongooseConnectString);
+// A standard MongoDB URI, not compatible with Mongoose because it lists multiple hosts in the address
+// Could be pulled from an environment variable or config file
+var uri = 'mongodb://username:password@host1:1234,host2:5678/database';
 
+// Reformat into a Mongoose connect string and connect()
+var mongooseConnectString = mongodbUri.formatMongoose(uri);
 mongoose.connect(mongooseConnectString);
 
-// Use Mongoose
-
-```
-
-```
-mongodb://host:1234/database,mongodb://host:5678/database
+// Test for connection success
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log('Successfully connected to MongoDB');
+});
 ```
