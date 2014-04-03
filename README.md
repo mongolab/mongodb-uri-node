@@ -98,8 +98,9 @@ Takes either a URI object or string in standard format and returns a Mongoose co
 instead of listing all hosts and ports in a single URI, a Mongoose connection string contains a list of URIs each
 with a single host and port pair.
 
-Useful in PaaS environments (e.g. Heroku) where a MongoDB URI environment variable is provided, but needs to be
-programmatically transformed into a string digestible by [mongoose.connect()](http://mongoosejs.com/docs/connections.html).
+Useful in environments where a MongoDB URI environment variable is provided, but needs to be programmatically
+transformed into a string digestible by [mongoose.connect()](http://mongoosejs.com/docs/connections.html)--for example,
+[deploying to a PaaS like Heroku using a MongoDB add-on like MongoLab](https://devcenter.heroku.com/articles/mongolab).
 
 #### Example
 
