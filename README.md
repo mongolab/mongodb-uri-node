@@ -107,7 +107,7 @@ when deploying to a [PaaS like Heroku using a MongoDB add-on like MongoLab](http
 var mongoose = require('mongoose');
 var mongodbUri = require('mongodb-uri');
 
-// A standard MongoDB URI, not compatible with Mongoose because it lists multiple hosts in the address
+// A MongoDB URI, not compatible with Mongoose because it lists multiple hosts in the address
 // Could be pulled from an environment variable or config file
 var uri = 'mongodb://username:password@host1:1234,host2:5678/database';
 
