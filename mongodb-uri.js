@@ -214,6 +214,6 @@ MongodbUriParser.prototype.formatMongoose = function formatMongoose(uri) {
 exports.MongodbUriParser = MongodbUriParser;
 
 var defaultParser = new MongodbUriParser();
-['parse', 'format', 'formatMongoose'].forEach(function (f) {
+[ 'parse', 'format', 'formatMongoose' ].forEach(function (f) {
     exports[f] = defaultParser[f].bind(defaultParser);
 });
