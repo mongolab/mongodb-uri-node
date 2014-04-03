@@ -111,7 +111,7 @@ var mongodbUri = require('mongodb-uri');
 // Could be pulled from an environment variable or config file
 var uri = 'mongodb://username:password@host1:1234,host2:5678/database';
 
-// Reformat into a Mongoose connect string and connect()
+// Reformat to a Mongoose connect string and connect()
 var mongooseConnectString = mongodbUri.formatMongoose(uri);
 mongoose.connect(mongooseConnectString);
 
