@@ -94,13 +94,12 @@ mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%
 
 ### formatMongoose
 
-Takes either a URI object or string in standard format and returns a Mongoose connection string. Specifically,
-instead of listing all hosts and ports in a single URI, a Mongoose connection string contains a list of URIs each
-with a single host and port pair.
+Takes either a URI object or string and returns a Mongoose connection string. Specifically, instead of listing all hosts
+and ports in a single URI, a Mongoose connection string contains a list of URIs each with a single host and port pair.
 
 Useful in environments where a MongoDB URI environment variable is provided, but needs to be programmatically
 transformed into a string digestible by [mongoose.connect()](http://mongoosejs.com/docs/connections.html)--for example,
-[deploying to a PaaS like Heroku using a MongoDB add-on like MongoLab](https://devcenter.heroku.com/articles/mongolab).
+when deploying to a [PaaS like Heroku using a MongoDB add-on like MongoLab](https://devcenter.heroku.com/articles/mongolab).
 
 #### Example
 
@@ -118,7 +117,7 @@ mongoose.connect(mongooseConnectString);
 
 // Test for connection success
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'Connection error: '));
 db.once('open', function callback () {
   console.log('Successfully connected to MongoDB');
 });
