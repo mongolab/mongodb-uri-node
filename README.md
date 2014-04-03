@@ -107,7 +107,7 @@ Takes either a URI object or string in standard format and returns a Mongoose co
 instead of listing all hosts and ports in a single URI, a Mongoose connection string contains a list of URIs each
 with a single host and port pair.
 
-#### Examples
+#### Example
 
 ```javascript
 var mongodbUri = require('mongodb-uri');
