@@ -198,17 +198,17 @@ MongodbUriParser.prototype.formatMongoose = function formatMongoose(uri) {
     if (!uri) {
         return parser.format(uri);
     }
-    var uriString = '';
+    var connectionString = '';
     uri.hosts.forEach(function (h, i) {
         if (i > 0) {
-            uriString += ',';
+            connectionString += ',';
         }
         // This trick is okay because format() never dynamically inspects the keys in its argument
-        var singleUri = Object.create(uri);
-        singleUri.hosts = [ h ];
-        uriString += parser.format(singleUri);
+        var singleUriObject = Object.create(uri);
+        singleUriObject.hosts = [ h ];
+        connectionString += parser.format(singleUriObject);
     });
-    return uriString;
+    return connectionString;
 };
 
 exports.MongodbUriParser = MongodbUriParser;
