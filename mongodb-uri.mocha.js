@@ -151,6 +151,31 @@ describe('mongodb-uri', function () {
                 mongodbUri.parse(test.standardUri).should.eql(test.uriObject);
             });
         });
+        it('should handle a trailing slash with no database', function () {
+            mongodbUri.parse('mongodb://localhost/').should.eql(
+                    {
+                        scheme: 'mongodb',
+                        hosts: [
+                            {
+                                host: 'localhost'
+                            }
+                        ]
+                    }
+            );
+            mongodbUri.parse('mongodb://localhost/?someOption=true').should.eql(
+                    {
+                        scheme: 'mongodb',
+                        hosts: [
+                            {
+                                host: 'localhost'
+                            }
+                        ],
+                        options: {
+                            someOption: 'true'
+                        }
+                    }
+            );
+        });
         it('should handle non-standard schemes', function () {
             mongodbUri.parse('somescheme://localhost').should.eql(
                     {

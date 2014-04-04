@@ -18,7 +18,7 @@ function MongodbUriParser(options) {
 /**
  * Takes a URI of the form:
  *
- *   mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/database][?options]
+ *   mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database]][?options]
  *
  * and returns an object of the form:
  *
@@ -77,7 +77,10 @@ MongodbUriParser.prototype.parse = function parse(uri) {
 
     i = rest.indexOf('/');
     if (i >= 0) {
-        uriObject.database = decodeURIComponent(rest.substring(i + 1));
+        // Make sure the database name isn't the empty string
+        if (i < rest.length - 1) {
+            uriObject.database = decodeURIComponent(rest.substring(i + 1));
+        }
         rest = rest.substring(0, i);
     }
 
@@ -114,7 +117,7 @@ MongodbUriParser.prototype._parseAddress = function _parseAddress(address, uriOb
 /**
  * Takes a URI object and returns a URI string of the form:
  *
- *   mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/database][?options]
+ *   mongodb://[username[:password]@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database]][?options]
  *
  * @param {Object=} uriObject
  * @return {String}
