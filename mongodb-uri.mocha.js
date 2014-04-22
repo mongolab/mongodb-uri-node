@@ -78,8 +78,8 @@ var testCases = [
         }
     },
     {
-        standardUri: 'mongodb://username:password@host:1234/database?authenticationDatabase=admin',
-        mongooseConnectionString: 'mongodb://username:password@host:1234/database?authenticationDatabase=admin',
+        standardUri: 'mongodb://username:password@host:1234/database?authSource=admin',
+        mongooseConnectionString: 'mongodb://username:password@host:1234/database?authSource=admin',
         uriObject: {
             scheme: 'mongodb',
             username: 'username',
@@ -92,13 +92,13 @@ var testCases = [
             ],
             database: 'database',
             options: {
-                authenticationDatabase: 'admin'
+                authSource: 'admin'
             }
         }
     },
     {
-        standardUri: 'mongodb://username:password@host:1234,host2:1235/database?authenticationDatabase=admin',
-        mongooseConnectionString: 'mongodb://username:password@host:1234/database?authenticationDatabase=admin,mongodb://username:password@host2:1235/database?authenticationDatabase=admin',
+        standardUri: 'mongodb://username:password@host:1234,host2:1235/database?authSource=admin',
+        mongooseConnectionString: 'mongodb://username:password@host:1234/database?authSource=admin,mongodb://username:password@host2:1235/database?authSource=admin',
         uriObject: {
             scheme: 'mongodb',
             username: 'username',
@@ -115,13 +115,13 @@ var testCases = [
             ],
             database: 'database',
             options: {
-                authenticationDatabase: 'admin'
+                authSource: 'admin'
             }
         }
     },
     {
-        standardUri: 'mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin',
-        mongooseConnectionString: 'mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authenticationDatabase=%40dmin',
+        standardUri: 'mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authSource=%40dmin',
+        mongooseConnectionString: 'mongodb://user%3An%40me:p%40ssword@host:1234/d%40tabase?authSource=%40dmin',
         uriObject: {
             scheme: 'mongodb',
             username: 'user:n@me',
@@ -134,7 +134,7 @@ var testCases = [
             ],
             database: 'd@tabase',
             options: {
-                authenticationDatabase: '@dmin'
+                authSource: '@dmin'
             }
         }
     }
