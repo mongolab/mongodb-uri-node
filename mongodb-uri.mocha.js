@@ -137,6 +137,27 @@ var testCases = [
                 authSource: '@dmin'
             }
         }
+    },
+    {
+      standardUri: 'mongodb://username:password@host:1234/database?authSource=admin&maxPoolSize=5&replicaSet=tesla',
+      mongooseConnectionString: 'mongodb://username:password@host:1234/database?authSource=admin&maxPoolSize=5&replicaSet=tesla',
+      uriObject: {
+        scheme: 'mongodb',
+        username: 'username',
+        password: 'password',
+        hosts: [
+          {
+            host: 'host',
+            port: 1234
+          }
+        ],
+        database: 'database',
+        options: {
+          authSource: 'admin',
+          maxPoolSize: '5',
+          replicaSet: 'tesla'
+        }
+      }
     }
 ];
 Object.keys(testCases).forEach(function (t) {

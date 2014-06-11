@@ -69,7 +69,7 @@ MongodbUriParser.prototype.parse = function parse(uri) {
         var options = rest.substring(i + 1);
         rest = rest.substring(0, i);
         uriObject.options = {};
-        options.split(',').forEach(function (o) {
+        options.split('&').forEach(function (o) {
             var iEquals = o.indexOf('=');
             uriObject.options[decodeURIComponent(o.substring(0, iEquals))] = decodeURIComponent(o.substring(iEquals + 1));
         });
@@ -151,7 +151,7 @@ MongodbUriParser.prototype.format = function format(uriObject) {
 
     if (uriObject.options) {
         Object.keys(uriObject.options).forEach(function (k, i) {
-            uri += i === 0 ? '?' : ',';
+            uri += i === 0 ? '?' : '&';
             uri += encodeURIComponent(k) + '=' + encodeURIComponent(uriObject.options[k]);
         });
     }
