@@ -10,6 +10,3 @@
 # node
 node_modules
 npm-debug.log
-
-# jetbrains ide
-/.idea
