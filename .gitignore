@@ -1,5 +1,11 @@
-# Project-specific ignore rules applicable to all users
-# https://help.github.com/articles/ignoring-files
+#
+# Project-specific ignore rules applicable to all users.
+#
+# Rules specific to an individual user's IDE, editor, or OS, for example, do not belong here. Instead, they should be
+# added to the user's global .gitignore at ~/.gitignore.
+#
+#   https://help.github.com/articles/ignoring-files
+#
 
 # node
 node_modules
