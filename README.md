@@ -14,6 +14,9 @@ Note that there are two minor differences between this format and the
 
 Neither of these differences should prevent this library from parsing any URI conforming to the standard format.
 
+## Demo
+See `mongodb-uri` in action. GUI tool for [MongoDB URI Builder](https://manage.mingo.io/tool/mongodb-uri-builder)
+
 ## Usage
 
 ### parse
