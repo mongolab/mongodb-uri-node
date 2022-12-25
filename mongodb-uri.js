@@ -102,13 +102,32 @@ MongodbUriParser.prototype._parseAddress = function _parseAddress(address, uriOb
     address.split(',').forEach(function (h) {
         var i = h.indexOf(':');
         if (i >= 0) {
-            uriObject.hosts.push(
+            let _host = h.split(':');
+            if (_host[0].startsWith('[')) {
+                if (_host[_host.length - 1].endsWith(']')) {
+                    // IPv6 address without port
+                    uriObject.hosts.push({ host: decodeURIComponent(_host.join(':')) });
+                } else {
+                    let p = _host.pop();
+                    // IPv6 address with port
+                    uriObject.hosts.push(
+                       {
+                        host: decodeURIComponent(_host.join(':')),
+                        port: parseInt(p)
+                      }
+                   );
+                }
+            } else {
+               // IPv4 address with port
+               uriObject.hosts.push(
                     {
-                        host: decodeURIComponent(h.substring(0, i)),
-                        port: parseInt(h.substring(i + 1))
+                        host: decodeURIComponent(_host[0]),
+                        port: parseInt(_host[1])
                     }
-            );
+               );
+            }
         } else {
+            // IPv4 address without port
             uriObject.hosts.push({ host: decodeURIComponent(h) });
         }
     });
